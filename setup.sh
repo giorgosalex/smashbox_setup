@@ -38,13 +38,6 @@ case $key in
 esac
 done
 
-echo $VERSION
-echo $USERNAME
-echo $PASSWORD
-echo $K_ACTIVITY
-#exit
-
-#vers=$(python get_vers.py)
 vers=$(python get_vers.py -v $VERSION)
 echo $vers
 
@@ -53,16 +46,16 @@ if [[ $? != 0 ]]; then
     exit
 fi
 
-#yum install wget -y
-#yum install git -y
+yum install wget -y
+yum install git -y
 
 wget http://cernbox.cern.ch/cernbox/doc/Linux/centos7-cernbox.repo
 mv centos7-cernbox.repo /etc/yum.repos.d/cernbox.repo
 
 sed -i s+/repo/+/$vers/+g /etc/yum.repos.d/cernbox.repo
 
-#yum update -y
-#yum install cernbox-client -y
+yum update -y
+yum install cernbox-client -y
 
 rm /etc/yum.repos.d/cernbox.repo
 
@@ -79,7 +72,7 @@ echo 'kibana_activity = "'$K_ACTIVITY'"' >> /root/smashbox/etc/smashbox-cernbox.
 
 cp /root/smashbox/etc/smashbox-cernbox.conf /root/smashbox/etc/smashbox-testbox.conf
 echo 'oc_server = "cernbox.cern.ch/cernbox/desktop"' >> /root/smashbox/etc/smashbox-cernbox.conf
-echo 'oc_server = "cernbox.cern.ch/testbox/desktop"' >> /root/smashbox/etc/smashbox-testbox.conf
+echo 'oc_server = "testbox.cern.ch/cernbox/desktop"' >> /root/smashbox/etc/smashbox-testbox.conf
 touch /root/smashbox/etc/smashbox.conf
 
 crontab -l > mycron
