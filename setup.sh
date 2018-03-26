@@ -38,7 +38,6 @@ case $key in
 esac
 done
 
-
 vers=$(python get_vers.py -v $VERSION)
 echo $vers
 
@@ -46,6 +45,7 @@ if [[ $? != 0 ]]; then
     echo "failed: $vers" 
     exit
 fi
+
 
 DISTR=$(python linux_distr.py)
 
