@@ -4,7 +4,7 @@ import json
 import argparse
 import platform
 import sys
-
+import os
 
 parser=argparse.ArgumentParser(description='Get wanted version and return folder name')
 
@@ -18,7 +18,7 @@ if not args.version:
     sys.exit(1)
 
 
-with open('/root/cbox_vers.csv', 'r') as fobj:
+with open(os.path.join(os.getcwd(), "cbox_vers.json"), 'r') as fobj:
     data = json.load(fobj)
 
 
