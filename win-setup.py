@@ -21,7 +21,7 @@ def get_vers(vers):
 def install_cernbox(vers):
     print '\033[94m' + "Installing cernbox client " + vers + " for Windows" + '\033[0m' + '\n'
     wget.download("https://cernbox.cern.ch/cernbox/doc/Windows/cernbox-" + vers +"-setup.exe")
-    #os.system("cernbox-" + vers +"-setup.exe /S")
+    os.system("cernbox-" + vers +"-setup.exe /S")
     os.remove("cernbox-" + vers +"-setup.exe")
 
 
