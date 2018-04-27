@@ -22,12 +22,19 @@ with open(os.path.join(os.getcwd(), "cbox_vers.json"), 'r') as fobj:
     data = json.load(fobj)
 
 
+if not args.version in data:
+    print "Sorry cernbox " + args.version + " client is not available!"
+    sys.exit(1)
+
+
 #system = "asd"
 system = platform.system()
 if system == 'Linux':
     print data[args.version][0]
 elif system == 'Darwin':
     print data[args.version][1]
+elif system == 'Windows':
+    print data[args.version][2]
 else:
     print "Sorry we do not support cernbox for " + system + " yet!"
     sys.exit(1)
