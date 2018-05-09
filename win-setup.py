@@ -2,10 +2,11 @@ import sys, os, subprocess, shutil, argparse
 
 
 def install_and_import(pkg):
-    import importlib
+    import importlib, site
     
     os.system(sys.executable + " -m easy_install " + pkg)
 
+    reload(site)
     importlib.import_module(pkg)
     globals()[pkg] = importlib.import_module(pkg)
 
