@@ -65,17 +65,19 @@ rm /etc/yum.repos.d/cernbox.repo
 git clone https://github.com/cernbox/smashbox.git /root/smashbox/
 
 CURRENT_PATH=$(pwd)
-cp $CURRENT_PATH/auto-smashbox.conf /root/smashbox/etc/smashbox-cernbox.conf
+CERNBOX_CONF_PATH='/root/smashbox/etc/smashbox-cernbox.conf'
+TESTBOX_CONF_PATH='/root/smashbox/etc/smashbox-testbox.conf'
+cp $CURRENT_PATH/auto-smashbox.conf $CERNBOX_CONF_PATH
 
-echo "oc_account_name = '$USERNAME'" >> /root/smashbox/etc/smashbox-cernbox.conf
-echo "oc_account_password = '$PASSWORD'" >> /root/smashbox/etc/smashbox-cernbox.conf
-echo "oc_ssl_enabled = True" >> /root/smashbox/etc/smashbox-cernbox.conf
-echo 'oc_sync_cmd = "/usr/bin/cernboxcmd --trust"' >> /root/smashbox/etc/smashbox-cernbox.conf
-echo 'kibana_activity = "'$K_ACTIVITY'"' >> /root/smashbox/etc/smashbox-cernbox.conf
+echo "oc_account_name = '$USERNAME'" >> $CERNBOX_CONF_PATH
+echo "oc_account_password = '$PASSWORD'" >> $CERNBOX_CONF_PATH
+echo "oc_ssl_enabled = True" >> $CERNBOX_CONF_PATH
+echo 'oc_sync_cmd = "/usr/bin/cernboxcmd --trust"' >> $CERNBOX_CONF_PATH
+echo 'kibana_activity = "'$K_ACTIVITY'"' >> $CERNBOX_CONF_PATH
 
-cp /root/smashbox/etc/smashbox-cernbox.conf /root/smashbox/etc/smashbox-testbox.conf
-echo 'oc_server = "cernbox.cern.ch/cernbox/desktop"' >> /root/smashbox/etc/smashbox-cernbox.conf
-echo 'oc_server = "testbox.cern.ch/cernbox/desktop"' >> /root/smashbox/etc/smashbox-testbox.conf
+cp $CERNBOX_CONF_PATH $TESTBOX_CONF_PATH
+echo 'oc_server = "cernbox.cern.ch/cernbox/desktop"' >> $CERNBOX_CONF_PATH
+echo 'oc_server = "testbox.cern.ch/cernbox/desktop"' >> $TESTBOX_CONF_PATH
 touch /root/smashbox/etc/smashbox.conf
 
 crontab -l > mycron
