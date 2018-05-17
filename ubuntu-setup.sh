@@ -49,18 +49,23 @@ fi
 
 DISTR=$(python linux_distr.py)
 
-yum install wget -y
-yum install git -y
+apt-get install wget -y
+apt-get install git -y
 
-wget http://cernbox.cern.ch/cernbox/doc/Linux/centos$DISTR-cernbox.repo
-mv centos$DISTR-cernbox.repo /etc/yum.repos.d/cernbox.repo
+apt update
+apt-get install python2.7 -y
+alias python=/usr/bin/python2.7
+apt-get install python-pip -y
+pip install requests
+easy_install -U setuptools
+pip install --upgrade setuptools
+apt-get install libssl-dev
+apt-get install libcurl4-openssl-dev
+easy_install pycurl
 
-sed -i s+/repo/+/$vers/+g /etc/yum.repos.d/cernbox.repo
-
-yum update -y
-yum install cernbox-client -y
-
-rm /etc/yum.repos.d/cernbox.repo
+#############################################
+### TO BE ADDED: CERNBOX SETUP FOR UBUNTU ###
+#############################################
 
 git clone https://github.com/cernbox/smashbox.git /root/smashbox/
 
@@ -89,4 +94,5 @@ echo "00 10 * * * /root/smashbox/cleanup.sh" >> mycron
 
 crontab mycron
 rm mycron
+
 
