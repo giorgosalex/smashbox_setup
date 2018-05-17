@@ -59,8 +59,8 @@ apt-get install python-pip -y
 pip install requests
 easy_install -U setuptools
 pip install --upgrade setuptools
-apt-get install libssl-dev
-apt-get install libcurl4-openssl-dev
+apt-get install libssl-dev -y
+apt-get install libcurl4-openssl-dev -y
 easy_install pycurl
 
 #############################################
