@@ -1,5 +1,8 @@
 import sys, os, subprocess, shutil, argparse
 
+run_time="12:30"
+cleanup_time="10:00"
+
 
 def install_and_import(pkg):
     import importlib, site
@@ -33,7 +36,7 @@ def get_repo():
     
     import zipfile
     zip_ref = zipfile.ZipFile("smashbox-master.zip", 'r')
-    zip_ref.extractall(os.path.dirname(os.path.abspath("/")))
+    zip_ref.extractall("C:\\")
 
 
     #shutil.move("smashbox-master.zip",'\\')
@@ -44,13 +47,13 @@ def install_cron_job(endpoint):
     import sys
 
     print '\n' + '\033[94m Installing cron job for smashbox execution \033[0m'  + '\n'
-    this_exec_path = os.path.join(os.path.dirname(os.path.abspath("/")), "Python27", "python.exe")
-    this_exec_path += " " + os.path.join(os.path.dirname(os.path.abspath("/")), "smashbox-master", "bin", "smash")
-    this_exec_path += " -a -d --keep-going " + os.path.join(os.path.dirname(os.path.abspath("/")), "smashbox-master", "lib")
-    this_exec_path += " -c " + os.path.join(os.path.dirname(os.path.abspath("/")), "smashbox-master", "etc", "smashbox-" + endpoint + ".conf")
+    this_exec_path = os.path.join("C:\\", "Python27", "python.exe")
+    this_exec_path += " " + os.path.join("C:\\", "smashbox-master", "bin", "smash")
+    this_exec_path += " -a -d --keep-going " + os.path.join("C:\\", "smashbox-master", "lib")
+    this_exec_path += " -c " + os.path.join("C:\\", "smashbox-master", "etc", "smashbox-" + endpoint + ".conf")
     print this_exec_path
 
-    cmd = "schtasks /Create /SC DAILY /RU system /TN Smashbox-Test /RL HIGHEST /ST 15:35 /TR " + '"' + this_exec_path + '"' + " /F" # /F is to force the overwrite of the existing scheduled task
+    cmd = "schtasks /Create /SC DAILY /RU system /TN Smashbox-Test /RL HIGHEST /ST " + run_time + " /TR " + '"' + this_exec_path + '"' + " /F" # /F is to force the overwrite of the existing scheduled task
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     if (len(stderr) > 0):
@@ -61,10 +64,10 @@ def install_cron_job(endpoint):
 
 def cron_cleanup():
     print '\n' + '\033[94m Installing cron job for cleanup \033[0m'  + '\n'
-    this_exec_path = os.path.join(os.path.dirname(os.path.abspath("/")), "Python27", "python.exe")
-    this_exec_path += " " + os.path.join(os.path.dirname(os.path.abspath("/")), "smashbox-master", "cleanup.py")
+    this_exec_path = os.path.join("C:\\", "Python27", "python.exe")
+    this_exec_path += " " + os.path.join("C:\\", "smashbox-master", "cleanup.py")
 
-    cmd = "schtasks /Create /SC DAILY /RU system /TN Smashbox-Cleanup /RL HIGHEST /ST 15:33 /TR " + '"' + this_exec_path + '"' + " /F"
+    cmd = "schtasks /Create /SC DAILY /RU system /TN Smashbox-Cleanup /RL HIGHEST /ST " + cleanup_time + " /TR " + '"' + this_exec_path + '"' + " /F"
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     if (len(stderr) > 0):
@@ -78,7 +81,7 @@ def get_oc_sync_cmd_path():
 
 
 def generate_config_smashbox(oc_account_name, oc_account_password, endpoint, ssl_enabled, kibana_activity):
-    new_smash_conf = os.path.join(os.path.dirname(os.path.abspath("/")), "smashbox-master", "etc", "smashbox-" + endpoint + ".conf")
+    new_smash_conf = os.path.join("C:\\", "smashbox-master", "etc", "smashbox-" + endpoint + ".conf")
     shutil.copyfile(os.path.join(os.getcwd(), "auto-smashbox.conf"), new_smash_conf)
     f = open(new_smash_conf, 'a')
 
@@ -153,10 +156,10 @@ install_cernbox(vers)
 
 get_repo()
 
-shutil.copyfile(os.path.join(os.getcwd(), "auto-smashbox.conf"), os.path.join(os.path.dirname(os.path.abspath("/")), "smashbox-master", "etc", "smashbox.conf"))
+shutil.copyfile(os.path.join(os.getcwd(), "auto-smashbox.conf"), os.path.join("C:\\", "smashbox-master", "etc", "smashbox.conf"))
 generate_config_smashbox(username, password, "cernbox", "True", args.kibana_activity)
 
 install_cron_job("cernbox")
 
-shutil.copyfile(os.path.join(os.getcwd(), "cleanup.py"), os.path.join(os.path.dirname(os.path.abspath("/")), "smashbox-master", "cleanup.py"))
+shutil.copyfile(os.path.join(os.getcwd(), "cleanup.py"), os.path.join("C:\\", "smashbox-master", "cleanup.py"))
 cron_cleanup()
