@@ -1,6 +1,6 @@
 import sys, os, subprocess, shutil, argparse
 
-run_time="12:30"
+run_time="16:55"
 cleanup_time="10:00"
 
 
@@ -35,12 +35,10 @@ def get_repo():
     wget.download("https://github.com/cernbox/smashbox/archive/master.zip")
     
     import zipfile
-    zip_ref = zipfile.ZipFile("smashbox-master.zip", 'r')
-    zip_ref.extractall("C:\\")
+    with zipfile.ZipFile("smashbox-master.zip", 'r') as zip_ref:
+        zip_ref.extractall("C:\\")
 
-
-    #shutil.move("smashbox-master.zip",'\\')
-    #os.remove("smashbox-master.zip")
+    os.remove("smashbox-master.zip")
 
 
 def install_cron_job(endpoint):
@@ -65,9 +63,23 @@ def install_cron_job(endpoint):
 def cron_cleanup():
     print '\n' + '\033[94m Installing cron job for cleanup \033[0m'  + '\n'
     this_exec_path = os.path.join("C:\\", "Python27", "python.exe")
-    this_exec_path += " " + os.path.join("C:\\", "smashbox-master", "cleanup.py")
+    this_exec_path += " " + os.path.join("C:\\", "smashutil", "cleanup.py")
 
     cmd = "schtasks /Create /SC DAILY /RU system /TN Smashbox-Cleanup /RL HIGHEST /ST " + cleanup_time + " /TR " + '"' + this_exec_path + '"' + " /F"
+    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    if (len(stderr) > 0):
+        print "The task cannot be created on Windows - ", stderr
+    else:
+        print "The task has been successfully installed"
+
+
+def cron_update_repo():
+    print '\n' + '\033[94m Installing cron job for repo update \033[0m'  + '\n'
+    this_exec_path = os.path.join("C:\\", "Python27", "python.exe")
+    this_exec_path += " " + os.path.join("C:\\", "smashutil", "update_repo.py")
+
+    cmd = "schtasks /Create /SC DAILY /RU system /TN Smashbox-Update_Repo /RL HIGHEST /ST 10:30 /TR " + '"' + this_exec_path + '"' + " /F"
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     if (len(stderr) > 0):
@@ -161,5 +173,13 @@ generate_config_smashbox(username, password, "cernbox", "True", args.kibana_acti
 
 install_cron_job("cernbox")
 
-shutil.copyfile(os.path.join(os.getcwd(), "cleanup.py"), os.path.join("C:\\", "smashbox-master", "cleanup.py"))
+smashutil_path = os.path.join("C:\\", "smashutil")
+if not os.path.exists(smashutil_path):
+    print smashutil_path
+    os.makedirs(smashutil_path)
+
+shutil.copyfile(os.path.join(os.getcwd(), "cleanup.py"), os.path.join("C:\\", "smashutil", "cleanup.py"))
 cron_cleanup()
+
+shutil.copyfile(os.path.join(os.getcwd(), "update_repo.py"), os.path.join("C:\\", "smashutil", "update_repo.py"))
+cron_update_repo()

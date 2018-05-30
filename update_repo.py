@@ -21,5 +21,4 @@ import zipfile
 with zipfile.ZipFile("smashbox-master.zip", 'r') as zip_ref:
     zip_ref.extractall("C:\\")
 
-#shutil.move("smashbox-master.zip",'\\')
 os.remove("smashbox-master.zip")
