@@ -51,7 +51,7 @@ def install_cron_job(endpoint):
     this_exec_path += " -c " + os.path.join("C:\\", "smashbox-master", "etc", "smashbox-" + endpoint + ".conf")
     print this_exec_path
 
-    cmd = "schtasks /Create /SC DAILY /RU system /TN Smashbox-Test /RL HIGHEST /ST " + run_time + " /TR " + '"' + this_exec_path + '"' + " /F" # /F is to force the overwrite of the existing scheduled task
+    cmd = "schtasks /Create /SC DAILY /RU system /TN Smashbox-" + endpoint + " /RL HIGHEST /ST " + run_time + " /TR " + '"' + this_exec_path + '"' + " /F" # /F is to force the overwrite of the existing scheduled task
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     if (len(stderr) > 0):
