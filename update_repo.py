@@ -10,6 +10,15 @@ def install_and_import(pkg):
     globals()[pkg] = importlib.import_module(pkg)
 
 
+import os
+path = os.path.join("C:\\", "smashbox-master", "etc")
+for f in os.listdir(path):
+    if f.startswith('smashbox') and f.endswith('.conf'):
+        print f
+        shutil.move(os.path.join(path, f), os.path.join("C:\\", "smashutil", f))
+        
+        
+
 
 install_and_import('wget')
 
@@ -22,3 +31,9 @@ with zipfile.ZipFile("smashbox-master.zip", 'r') as zip_ref:
     zip_ref.extractall("C:\\")
 
 os.remove("smashbox-master.zip")
+
+path = os.path.join("C:\\", "smashutil")
+for f in os.listdir(path):
+    if f.startswith('smashbox') and f.endswith('.conf'):
+        print f
+        shutil.move(os.path.join(path, f), os.path.join("C:\\", "smashbox-master", "etc", f))
