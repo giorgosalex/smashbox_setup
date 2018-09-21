@@ -8,7 +8,9 @@ setup up cernbox/smashbox in windows
 4. (Modify if you need the time of cronjobs install in win-setup.py: in win-setup.py 2 vars run_time and cleanup_time )
 5. Open cmd as administrator
 6. cd in the smashbox_setup-master you downloaded and extracted
-7. C:\Python27\python.exe win-setup.py -v VERSION -u USERNAME -p PASSWORD -k KIBANA_ACTIVITY
+7. Run: "C:\Python27\python.exe win-setup.py -v VERSION -u USERNAME -p PASSWORD -k KIBANA_ACTIVITY"
+
+Where VERSION is the cernbox version you want (ie. 2.4.2), USERNAME/PASSWORD your cernbox credentials
 
 
 ALTERNATIVE:
@@ -22,6 +24,6 @@ ALTERNATIVE:
 
 TO SEE THE CRONJOBS:
 in search tab search for 'task scheduler' and run as administrator.
-there you will find a cronjob with the name of 'smashbox-cbox-redirector'
+there you will find a cronjob with the name of 'smashbox-cernbox'
 if you click it you have some options on the right to run/stop 
 You can also modify some attributes by right clicking and going to properties
