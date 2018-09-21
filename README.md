@@ -1,6 +1,6 @@
 # smashbox_setup
 
-setup up cernbox/smashbox in windows
+#setup up cernbox/smashbox in windows
 
 1. Download and install python 2.7 form here: https://www.python.org/downloads/windows/
 2. Download smashbox reposiroty form here: https://github.com/giorgosalex/smashbox_setup
