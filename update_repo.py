@@ -12,17 +12,19 @@ def install_and_import(pkg):
 
 import os
 path = os.path.join("C:\\", "smashbox-master", "etc")
-for f in os.listdir(path):
-    if f.startswith('smashbox') and f.endswith('.conf'):
-        print f
-        shutil.move(os.path.join(path, f), os.path.join("C:\\", "smashutil", f))
+if os.path.exists(path):
+    for f in os.listdir(path):
+        if f.startswith('smashbox') and f.endswith('.conf'):
+            print f
+            shutil.move(os.path.join(path, f), os.path.join("C:\\", "smashutil", f))
         
         
 
 
 install_and_import('wget')
 
-shutil.rmtree("C:\\smashbox-master")
+if os.path.exists("C:\\smashbox-master"):
+    shutil.rmtree("C:\\smashbox-master")
 
 wget.download("https://github.com/cernbox/smashbox/archive/master.zip")
     
